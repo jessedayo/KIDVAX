@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KIDVAX — Contact</title>
+    <link rel="stylesheet" href="../css/global.css" />
+    <link rel="stylesheet" href="../css/navbar.css" />
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar">
+      <a href="dashboard.html" class="navbar-brand">💉 KIDVAX</a>
+      <ul class="navbar-nav">
+        <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+        <li><a href="children.html" class="nav-link">Children</a></li>
+        <li><a href="vaccine-info.html" class="nav-link">Vaccines</a></li>
+        <li><a href="notifications.html" class="nav-link">Reminders</a></li>
+        <li><a href="about.html" class="nav-link">About</a></li>
+        <li><a href="contact.html" class="nav-link active">Contact</a></li>
+      </ul>
+      <div class="navbar-right">
+        <span class="navbar-user" id="user-name"></span>
+        <button class="btn-logout" onclick="logout()">Logout</button>
+      </div>
+    </nav>
+
+    <div class="main-content">
+      <div class="container">
+        <div style="max-width: 600px; margin: 0 auto">
+          <!-- Header -->
+          <div style="text-align: center; margin-bottom: 48px">
+            <div style="font-size: 64px; margin-bottom: 16px">📞</div>
+            <h1 style="font-size: 36px; color: var(--primary)">Contact Us</h1>
+            <p class="text-muted" style="font-size: 16px; margin-top: 8px">
+              Having issues or questions? Reach out to us directly.
+            </p>
+          </div>
+
+          <!-- Contact Card -->
+          <div class="card" style="margin-bottom: 24px">
+            <h2 style="margin-bottom: 24px">👨‍💻 Developer</h2>
+
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                gap: 16px;
+                padding: 16px 0;
+                border-bottom: 1px solid var(--border);
+              "
+            >
+              <div
+                style="
+                  width: 48px;
+                  height: 48px;
+                  border-radius: 50%;
+                  background: var(--primary-bg);
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  font-size: 22px;
+                "
+              >
+                👤
+              </div>
+              <div>
+                <p
+                  class="text-muted"
+                  style="
+                    font-size: 12px;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                  "
+                >
+                  Name
+                </p>
+                <p style="font-size: 16px; font-weight: 600">KIDVAX</p>
+              </div>
+            </div>
+
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                gap: 16px;
+                padding: 16px 0;
+                border-bottom: 1px solid var(--border);
+              "
+            >
+              <div
+                style="
+                  width: 48px;
+                  height: 48px;
+                  border-radius: 50%;
+                  background: var(--primary-bg);
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  font-size: 22px;
+                "
+              >
+                📧
+              </div>
+              <div>
+                <p
+                  class="text-muted"
+                  style="
+                    font-size: 12px;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                  "
+                >
+                  Email
+                </p>
+                <a
+                  href="mailto:kidvax.app@gmail.com"
+                  style="
+                    font-size: 16px;
+                    font-weight: 600;
+                    color: var(--primary);
+                  "
+                  >kidvax.app@gmail.com</a
+                >
+              </div>
+            </div>
+
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                gap: 16px;
+                padding: 16px 0;
+              "
+            >
+              <div
+                style="
+                  width: 48px;
+                  height: 48px;
+                  border-radius: 50%;
+                  background: var(--primary-bg);
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  font-size: 22px;
+                "
+              >
+                📱
+              </div>
+              <div>
+                <p
+                  class="text-muted"
+                  style="
+                    font-size: 12px;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                  "
+                >
+                  Phone
+                </p>
+                <a
+                  href="tel:+237682668789"
+                  style="
+                    font-size: 16px;
+                    font-weight: 600;
+                    color: var(--primary);
+                  "
+                  >+237 682 668 789</a
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- Note -->
+          <div
+            class="card"
+            style="background: var(--primary-bg); border: 1px solid #c8e6c9"
+          >
+            <p
+              style="line-height: 1.8; color: var(--primary); font-weight: 600"
+            >
+              💡 Note
+            </p>
+            <p style="line-height: 1.8; color: #444; margin-top: 8px">
+              KIDVAX is a school project built to demonstrate a real-world
+              vaccination tracking system. For medical advice, always consult a
+              qualified healthcare professional.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const user = JSON.parse(localStorage.getItem("kidvax_user"));
+      if (!user) window.location.href = "../index.html";
+      document.getElementById("user-name").textContent =
+        "👋 " + user.fullname.split(" ")[0];
+      function logout() {
+        localStorage.removeItem("kidvax_token");
+        localStorage.removeItem("kidvax_user");
+        window.location.href = "../index.html";
+      }
+    </script>
+  </body>
+</html>

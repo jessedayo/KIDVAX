@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KIDVAX — About</title>
+    <link rel="stylesheet" href="../css/global.css" />
+    <link rel="stylesheet" href="../css/navbar.css" />
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar">
+      <a href="dashboard.html" class="navbar-brand">💉 KIDVAX</a>
+      <ul class="navbar-nav">
+        <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+        <li><a href="children.html" class="nav-link">Children</a></li>
+        <li><a href="vaccine-info.html" class="nav-link">Vaccines</a></li>
+        <li><a href="notifications.html" class="nav-link">Reminders</a></li>
+        <li><a href="about.html" class="nav-link active">About</a></li>
+        <li><a href="contact.html" class="nav-link">Contact</a></li>
+      </ul>
+      <div class="navbar-right">
+        <span class="navbar-user" id="user-name"></span>
+        <button class="btn-logout" onclick="logout()">Logout</button>
+      </div>
+    </nav>
+
+    <div class="main-content">
+      <div class="container">
+        <div style="max-width: 800px; margin: 0 auto">
+          <!-- Header -->
+          <div style="text-align: center; margin-bottom: 48px">
+            <div style="font-size: 64px; margin-bottom: 16px">💉</div>
+            <h1 style="font-size: 36px; color: var(--primary)">About KIDVAX</h1>
+            <p class="text-muted" style="font-size: 16px; margin-top: 8px">
+              Keeping children healthy, one vaccine at a time.
+            </p>
+          </div>
+
+          <!-- What is KIDVAX -->
+          <div class="card" style="margin-bottom: 24px">
+            <h2 style="margin-bottom: 12px">🌍 What is KIDVAX?</h2>
+            <p style="line-height: 1.8; color: #444">
+              KIDVAX is a web-based Child Vaccination Tracking System designed
+              to help parents and guardians manage their children's vaccination
+              records digitally. We believe no child should miss a vaccine
+              simply because of a lost paper card or a forgotten schedule.
+            </p>
+          </div>
+
+          <!-- Why KIDVAX -->
+          <div class="card" style="margin-bottom: 24px">
+            <h2 style="margin-bottom: 12px">❓ Why KIDVAX?</h2>
+            <p style="line-height: 1.8; color: #444; margin-bottom: 16px">
+              In many communities, vaccination records are kept on paper cards
+              that can easily get lost, damaged, or forgotten. KIDVAX solves
+              this by:
+            </p>
+            <ul style="padding-left: 24px; line-height: 2; color: #444">
+              <li>Storing all vaccination records digitally and securely</li>
+              <li>Automatically tracking upcoming and overdue vaccines</li>
+              <li>Sending email reminders before vaccines are due</li>
+              <li>Providing a clear visual status for every vaccine</li>
+            </ul>
+          </div>
+
+          <!-- Features -->
+          <div class="card" style="margin-bottom: 24px">
+            <h2 style="margin-bottom: 16px">✨ Features</h2>
+            <div
+              style="
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 16px;
+              "
+            >
+              <div style="display: flex; gap: 12px; align-items: flex-start">
+                <div style="font-size: 28px">👶</div>
+                <div>
+                  <strong style="font-family: var(--font-heading)"
+                    >Child Profiles</strong
+                  >
+                  <p
+                    class="text-muted"
+                    style="font-size: 13px; margin-top: 2px"
+                  >
+                    Manage multiple children from one account
+                  </p>
+                </div>
+              </div>
+              <div style="display: flex; gap: 12px; align-items: flex-start">
+                <div style="font-size: 28px">💉</div>
+                <div>
+                  <strong style="font-family: var(--font-heading)"
+                    >Vaccine Tracking</strong
+                  >
+                  <p
+                    class="text-muted"
+                    style="font-size: 13px; margin-top: 2px"
+                  >
+                    Track all vaccines from birth to 4 years
+                  </p>
+                </div>
+              </div>
+              <div style="display: flex; gap: 12px; align-items: flex-start">
+                <div style="font-size: 28px">🔔</div>
+                <div>
+                  <strong style="font-family: var(--font-heading)"
+                    >Smart Reminders</strong
+                  >
+                  <p
+                    class="text-muted"
+                    style="font-size: 13px; margin-top: 2px"
+                  >
+                    Automated email alerts for upcoming vaccines
+                  </p>
+                </div>
+              </div>
+              <div style="display: flex; gap: 12px; align-items: flex-start">
+                <div style="font-size: 28px">📊</div>
+                <div>
+                  <strong style="font-family: var(--font-heading)"
+                    >Dashboard</strong
+                  >
+                  <p
+                    class="text-muted"
+                    style="font-size: 13px; margin-top: 2px"
+                  >
+                    Clear overview of all vaccination progress
+                  </p>
+                </div>
+              </div>
+              <div style="display: flex; gap: 12px; align-items: flex-start">
+                <div style="font-size: 28px">🟡</div>
+                <div>
+                  <strong style="font-family: var(--font-heading)"
+                    >Color Indicators</strong
+                  >
+                  <p
+                    class="text-muted"
+                    style="font-size: 13px; margin-top: 2px"
+                  >
+                    Green, yellow and red vaccine status system
+                  </p>
+                </div>
+              </div>
+              <div style="display: flex; gap: 12px; align-items: flex-start">
+                <div style="font-size: 28px">🔒</div>
+                <div>
+                  <strong style="font-family: var(--font-heading)"
+                    >Secure & Private</strong
+                  >
+                  <p
+                    class="text-muted"
+                    style="font-size: 13px; margin-top: 2px"
+                  >
+                    Your data is protected with JWT authentication
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Built with -->
+          <div class="card">
+            <h2 style="margin-bottom: 12px">🛠️ Built With</h2>
+            <p style="line-height: 1.8; color: #444">
+              KIDVAX is built using 100% free and open-source technologies —
+              <strong>HTML</strong>, <strong>CSS</strong>,
+              <strong>JavaScript</strong>, <strong>Node.js</strong>,
+              <strong>Express</strong> and <strong>MySQL</strong>
+              — making it accessible and affordable for everyone.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const user = JSON.parse(localStorage.getItem("kidvax_user"));
+      if (!user) window.location.href = "../index.html";
+      document.getElementById("user-name").textContent =
+        "👋 " + user.fullname.split(" ")[0];
+      function logout() {
+        localStorage.removeItem("kidvax_token");
+        localStorage.removeItem("kidvax_user");
+        window.location.href = "../index.html";
+      }
+    </script>
+  </body>
+</html>

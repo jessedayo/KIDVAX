@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KIDVAX — Vaccine Information</title>
+    <link rel="stylesheet" href="../css/global.css" />
+    <link rel="stylesheet" href="../css/navbar.css" />
+    <link rel="stylesheet" href="../css/vaccines.css" />
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar">
+      <a href="dashboard.html" class="navbar-brand">💉 KIDVAX</a>
+      <ul class="navbar-nav">
+        <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+        <li><a href="children.html" class="nav-link">Children</a></li>
+        <li>
+          <a href="vaccine-info.html" class="nav-link active">Vaccines</a>
+        </li>
+        <li><a href="notifications.html" class="nav-link">Reminders</a></li>
+        <li><a href="about.html" class="nav-link">About</a></li>
+        <li><a href="contact.html" class="nav-link">Contact</a></li>
+      </ul>
+      <div class="navbar-right">
+        <span class="navbar-user" id="user-name"></span>
+        <button class="btn-logout" onclick="logout()">Logout</button>
+      </div>
+    </nav>
+
+    <div class="main-content">
+      <div class="container">
+        <div style="margin-bottom: 32px">
+          <h1>📋 Vaccine Information</h1>
+          <p class="text-muted" style="margin-top: 8px">
+            Complete list of recommended vaccines from birth to 4 years old.
+          </p>
+        </div>
+
+        <!-- Search -->
+        <div class="form-group" style="max-width: 400px; margin-bottom: 24px">
+          <input
+            type="text"
+            id="search"
+            placeholder="🔍 Search vaccine or age..."
+            oninput="filterVaccines()"
+          />
+        </div>
+
+        <!-- Table -->
+        <div class="vaccine-table-wrapper">
+          <table class="vaccine-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Vaccine Name</th>
+                <th>Recommended Age</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody id="vaccine-list">
+              <tr>
+                <td colspan="4" class="text-muted">Loading...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <script src="../js/vaccine-info.js"></script>
+  </body>
+</html>

@@ -1,0 +1,108 @@
+.vaccine-table-wrapper {
+  overflow-x: auto;
+}
+
+.vaccine-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.vaccine-table th {
+  text-align: left;
+  padding: 10px 16px;
+  font-size: 12px;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  border-bottom: 2px solid var(--border);
+}
+.vaccine-table td {
+  padding: 12px 16px;
+  font-size: 14px;
+  border-bottom: 1px solid var(--border);
+}
+.vaccine-table tr:hover td {
+  background: #fafafa;
+}
+
+.vaccine-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.summary-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+.summary-card .number {
+  font-size: 32px;
+  font-weight: 800;
+  font-family: var(--font-heading);
+}
+.summary-card .label {
+  font-size: 13px;
+  font-weight: 600;
+  margin-top: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.number.green {
+  color: var(--completed);
+}
+.number.yellow {
+  color: var(--upcoming);
+}
+.number.red {
+  color: var(--missed);
+}
+
+.progress-wrap {
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 32px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+.progress-bar-bg {
+  background: var(--border);
+  border-radius: 999px;
+  height: 12px;
+  overflow: hidden;
+  margin: 8px 0;
+}
+.progress-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--primary);
+  transition: width 0.5s ease;
+}
+
+.vaccine-card-btn {
+  background: var(--primary-bg);
+  color: var(--primary);
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 13px;
+  transition: background 0.2s;
+}
+.vaccine-card-btn:hover {
+  background: #c8e6c9;
+}
+
+@media (max-width: 768px) {
+  .vaccine-summary {
+    grid-template-columns: 1fr;
+  }
+}
