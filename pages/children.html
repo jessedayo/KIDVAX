@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KIDVAX — Children</title>
+    <link rel="stylesheet" href="../css/global.css" />
+    <link rel="stylesheet" href="../css/navbar.css" />
+    <link rel="stylesheet" href="../css/children.css" />
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar">
+      <a href="dashboard.html" class="navbar-brand">💉 KIDVAX</a>
+      <ul class="navbar-nav">
+        <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+        <li><a href="children.html" class="nav-link active">Children</a></li>
+        <li><a href="vaccine-info.html" class="nav-link">Vaccines</a></li>
+        <li><a href="notifications.html" class="nav-link">Reminders</a></li>
+        <li><a href="about.html" class="nav-link">About</a></li>
+        <li><a href="contact.html" class="nav-link">Contact</a></li>
+      </ul>
+      <div class="navbar-right">
+        <span class="navbar-user" id="user-name"></span>
+        <button class="btn-logout" onclick="logout()">Logout</button>
+      </div>
+    </nav>
+
+    <div class="main-content">
+      <div class="container">
+        <div class="children-header">
+          <h1>👶 My Children</h1>
+          <button class="btn btn-primary" onclick="openModal()">
+            + Add Child
+          </button>
+        </div>
+
+        <div
+          id="error-msg"
+          class="alert alert-error"
+          style="display: none"
+        ></div>
+
+        <div class="children-grid" id="children-grid">
+          <p class="text-muted">Loading...</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="modal" style="display: none">
+      <div class="modal">
+        <div class="modal-header">
+          <h2 id="modal-title">Add Child</h2>
+          <button class="modal-close" onclick="closeModal()">✕</button>
+        </div>
+        <div
+          id="modal-error"
+          class="alert alert-error"
+          style="display: none"
+        ></div>
+        <div class="form-group">
+          <label>Child's Name</label>
+          <input type="text" id="child-name" placeholder="Enter child's name" />
+        </div>
+        <div class="form-group">
+          <label>Date of Birth</label>
+          <input type="date" id="child-dob" />
+        </div>
+        <div class="form-group">
+          <label>Gender</label>
+          <select id="child-gender">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+          </select>
+        </div>
+        <button
+          class="btn btn-primary"
+          style="width: 100%; justify-content: center"
+          onclick="saveChild()"
+        >
+          Save
+        </button>
+      </div>
+    </div>
+
+    <script src="../js/children.js"></script>
+  </body>
+</html>
