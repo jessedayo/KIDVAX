@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KIDVAX — Reminders</title>
+    <link rel="stylesheet" href="../css/global.css" />
+    <link rel="stylesheet" href="../css/navbar.css" />
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar">
+      <a href="dashboard.html" class="navbar-brand">💉 KIDVAX</a>
+      <ul class="navbar-nav">
+        <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+        <li><a href="children.html" class="nav-link">Children</a></li>
+        <li><a href="vaccine-info.html" class="nav-link">Vaccines</a></li>
+        <li>
+          <a href="notifications.html" class="nav-link active">Reminders</a>
+        </li>
+        <li><a href="about.html" class="nav-link">About</a></li>
+        <li><a href="contact.html" class="nav-link">Contact</a></li>
+      </ul>
+      <div class="navbar-right">
+        <span class="navbar-user" id="user-name"></span>
+        <button class="btn-logout" onclick="logout()">Logout</button>
+      </div>
+    </nav>
+
+    <div class="main-content">
+      <div class="container">
+        <h1 style="margin-bottom: 24px">🔔 Reminders</h1>
+
+        <!-- How it works -->
+        <div
+          class="card"
+          style="
+            margin-bottom: 24px;
+            background: var(--primary-bg);
+            border: 1px solid #c8e6c9;
+          "
+        >
+          <h2
+            style="font-size: 16px; margin-bottom: 8px; color: var(--primary)"
+          >
+            ⚙️ How Reminders Work
+          </h2>
+          <p style="color: #444; line-height: 1.8; font-size: 14px">
+            KIDVAX automatically sends email reminders every day at 8AM:<br />
+            🟡 <strong>14 days before</strong> a vaccine is due<br />
+            🟢 <strong>On the due date</strong> of a vaccine<br />
+            🔴 <strong>7 days after</strong> a vaccine is overdue
+          </p>
+        </div>
+
+        <!-- Notification History -->
+        <div class="card">
+          <h2 style="font-size: 18px; margin-bottom: 16px">
+            📋 Notification History
+          </h2>
+          <div id="notifications-list">
+            <p class="text-muted">Loading...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../js/notifications.js"></script>
+  </body>
+</html>
