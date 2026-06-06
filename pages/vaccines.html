@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KIDVAX — Vaccines</title>
+    <link rel="stylesheet" href="../css/global.css" />
+    <link rel="stylesheet" href="../css/navbar.css" />
+    <link rel="stylesheet" href="../css/vaccines.css" />
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar">
+      <a href="dashboard.html" class="navbar-brand">💉 KIDVAX</a>
+      <ul class="navbar-nav">
+        <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+        <li><a href="children.html" class="nav-link">Children</a></li>
+        <li><a href="vaccine-info.html" class="nav-link">Vaccines</a></li>
+        <li><a href="notifications.html" class="nav-link">Reminders</a></li>
+        <li><a href="about.html" class="nav-link">About</a></li>
+        <li><a href="contact.html" class="nav-link">Contact</a></li>
+      </ul>
+      <div class="navbar-right">
+        <span class="navbar-user" id="user-name"></span>
+        <button class="btn-logout" onclick="logout()">Logout</button>
+      </div>
+    </nav>
+
+    <div class="main-content">
+      <div class="container">
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+          "
+        >
+          <button
+            class="btn btn-secondary btn-sm"
+            onclick="window.location.href = 'children.html'"
+          >
+            ← Back
+          </button>
+          <h1 id="page-title">💉 Vaccines</h1>
+          <button class="btn btn-secondary" onclick="downloadPDF()">
+            📄 Download PDF
+          </button>
+        </div>
+
+        <div
+          id="error-msg"
+          class="alert alert-error"
+          style="display: none"
+        ></div>
+
+        <!-- Summary Cards -->
+        <div class="vaccine-summary">
+          <div class="summary-card">
+            <div class="number green" id="total-completed">0</div>
+            <div class="label">✅ Completed</div>
+          </div>
+          <div class="summary-card">
+            <div class="number yellow" id="total-upcoming">0</div>
+            <div class="label">🟡 Upcoming</div>
+          </div>
+          <div class="summary-card">
+            <div class="number red" id="total-missed">0</div>
+            <div class="label">🔴 Overdue</div>
+          </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-wrap">
+          <div class="flex-between">
+            <span style="font-family: var(--font-heading); font-weight: 700"
+              >Overall Progress</span
+            >
+            <span
+              style="font-weight: 700; color: var(--primary)"
+              id="progress-pct"
+              >0%</span
+            >
+          </div>
+          <div class="progress-bar-bg">
+            <div
+              class="progress-bar-fill"
+              id="progress-bar"
+              style="width: 0%"
+            ></div>
+          </div>
+          <p class="text-muted" id="progress-text">0 of 0 vaccines completed</p>
+        </div>
+
+        <!-- Vaccine Table -->
+        <div class="vaccine-table-wrapper">
+          <table class="vaccine-table">
+            <thead>
+              <tr>
+                <th>Vaccine</th>
+                <th>Recommended Age</th>
+                <th>Due Date</th>
+                <th>Status</th>
+                <th>Date Given</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="vaccine-records">
+              <tr>
+                <td colspan="6" class="text-muted">Loading...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+    <script src="../js/vaccines.js"></script>
+  </body>
+</html>
