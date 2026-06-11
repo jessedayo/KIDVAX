@@ -1,71 +1,110 @@
-// Handles all email sending for KIDVAX
-const nodemailer = require("nodemailer");
-require("dotenv").config();
+// Runs every day at 8AM to check vaccine statuses and send emails
+const cron = require("node-cron");
+const {
+  getAllPendingVaccines,
+  updateVaccineStatus,
+  updateNotifiedFlags,
+} = require("../models/vaccineModel");
+const { createNotification } = require("../models/notificationModel");
+const { sendVaccineReminder } = require("./emailService");
 
-const transporter = nodemailer.createTransport({
-  host: process.env.EMAIL_HOST,
-  port: process.env.EMAIL_PORT,
-  secure: false,
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-  tls: { rejectUnauthorized: false },
-});
+const runDailyCheck = async () => {
+  console.log("⏰ Running daily vaccine check...");
 
-const sendVaccineReminder = async (
-  toEmail,
-  parentName,
-  childName,
-  vaccines,
-) => {
-  const vaccine = vaccines[0];
-  const type = vaccine.type;
+  try {
+    const records = await getAllPendingVaccines();
+    const today = new Date();
 
-  let subject, headerColor, headerText, bodyText;
+    for (const record of records) {
+      const dueDate = new Date(record.due_date);
+      const daysUntil = Math.ceil((dueDate - today) / (1000 * 60 * 60 * 24));
 
-  if (type === "upcoming") {
-    subject = `🟡 Upcoming Vaccine for ${childName} in ${vaccine.daysUntil} days`;
-    headerColor = "#F57F17";
-    headerText = "🟡 Upcoming Vaccine Reminder";
-    bodyText = `<strong>${vaccine.vaccine_name}</strong> is due in <strong>${vaccine.daysUntil} days</strong> on <strong>${vaccine.due_date}</strong>. Please schedule a visit to your healthcare provider.`;
-  } else if (type === "due_today") {
-    subject = `🟢 Vaccine Due Today for ${childName}!`;
-    headerColor = "#2E7D32";
-    headerText = "🟢 Vaccine Due Today";
-    bodyText = `<strong>${vaccine.vaccine_name}</strong> is due <strong>today</strong>. Please visit your healthcare provider as soon as possible.`;
-  } else {
-    subject = `🔴 Overdue Vaccine for ${childName}`;
-    headerColor = "#C62828";
-    headerText = "🔴 Overdue Vaccine Alert";
-    bodyText = `<strong>${vaccine.vaccine_name}</strong> was due on <strong>${vaccine.due_date}</strong> and is now overdue. Please consult a doctor or health personnel to know if the vaccine can still be taken or needs to be rescheduled.`;
+      // 🟡 UPCOMING — 14 days before due date
+      if (daysUntil <= 14 && daysUntil > 0 && !record.notified_upcoming) {
+        await updateVaccineStatus(record.record_id, "pending", null);
+        await updateNotifiedFlags(record.record_id, "upcoming");
+        await sendVaccineReminder(
+          record.email,
+          record.fullname,
+          record.child_name,
+          [
+            {
+              vaccine_name: record.vaccine_name,
+              due_date: dueDate.toLocaleDateString(),
+              type: "upcoming",
+              daysUntil,
+            },
+          ],
+        );
+        await createNotification(
+          record.user_id,
+          `🟡 Upcoming: ${record.vaccine_name} for ${record.child_name} is due in ${daysUntil} day(s)`,
+        );
+        console.log(
+          `🟡 Upcoming email sent for ${record.vaccine_name} — ${record.child_name}`,
+        );
+      }
+
+      // 🟢 DUE TODAY — exact due date
+      else if (daysUntil === 0 && !record.notified_due) {
+        await updateVaccineStatus(record.record_id, "pending", null);
+        await updateNotifiedFlags(record.record_id, "due");
+        await sendVaccineReminder(
+          record.email,
+          record.fullname,
+          record.child_name,
+          [
+            {
+              vaccine_name: record.vaccine_name,
+              due_date: dueDate.toLocaleDateString(),
+              type: "due_today",
+            },
+          ],
+        );
+        await createNotification(
+          record.user_id,
+          `🟢 Due Today: ${record.vaccine_name} for ${record.child_name} is due today!`,
+        );
+        console.log(
+          `🟢 Due today email sent for ${record.vaccine_name} — ${record.child_name}`,
+        );
+      }
+
+      // 🔴 OVERDUE — 7 days after due date
+      else if (daysUntil <= -7 && !record.notified_overdue) {
+        await updateVaccineStatus(record.record_id, "missed", null);
+        await updateNotifiedFlags(record.record_id, "overdue");
+        await sendVaccineReminder(
+          record.email,
+          record.fullname,
+          record.child_name,
+          [
+            {
+              vaccine_name: record.vaccine_name,
+              due_date: dueDate.toLocaleDateString(),
+              type: "overdue",
+            },
+          ],
+        );
+        await createNotification(
+          record.user_id,
+          `🔴 Overdue: ${record.vaccine_name} for ${record.child_name} is overdue. Please consult a doctor.`,
+        );
+        console.log(
+          `🔴 Overdue email sent for ${record.vaccine_name} — ${record.child_name}`,
+        );
+      }
+    }
+
+    console.log("✅ Daily vaccine check complete");
+  } catch (err) {
+    console.error("❌ Cron job error:", err.message);
   }
-
-  await transporter.sendMail({
-    from: process.env.EMAIL_FROM,
-    to: toEmail,
-    subject,
-    html: `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden;">
-        <div style="background: ${headerColor}; padding: 24px; text-align: center;">
-          <h1 style="color: white; margin: 0;">💉 KIDVAX</h1>
-          <p style="color: rgba(255,255,255,0.85); margin: 4px 0;">Child Vaccination Tracking System</p>
-        </div>
-        <div style="padding: 30px;">
-          <h2 style="color: ${headerColor};">${headerText}</h2>
-          <p>Hello <strong>${parentName}</strong>,</p>
-          <p>This is a reminder for <strong>${childName}</strong>:</p>
-          <div style="background: #f9f9f9; padding: 16px 20px; border-left: 4px solid ${headerColor}; border-radius: 4px; margin: 16px 0;">
-            ${bodyText}
-          </div>
-          <p style="color: #666; font-size: 13px;">— The KIDVAX Team</p>
-        </div>
-        <div style="background: #f5f5f5; padding: 12px; text-align: center; font-size: 12px; color: #999;">
-          This is an automated reminder from KIDVAX. Do not reply to this email.
-        </div>
-      </div>
-    `,
-  });
 };
 
-module.exports = { sendVaccineReminder };
+// Run every day at 8:00 AM
+cron.schedule("0 8 * * *", runDailyCheck);
+
+console.log("✅ Vaccine reminder cron job started (runs daily at 8AM)");
+
+module.exports = { runDailyCheck };

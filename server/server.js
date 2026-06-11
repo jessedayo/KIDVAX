@@ -4,21 +4,21 @@ const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
 
-const app = express();
-const PORT = process.env.PORT || 5000;
-
 // Import routes
 const authRoutes = require("./routes/authRoutes");
 const childRoutes = require("./routes/childRoutes");
 const vaccineRoutes = require("./routes/vaccineRoutes");
 const notificationRoutes = require("./routes/notificationRoutes");
+const userRoutes = require("./routes/userRoutes");
 
-// Start cron job for automatic reminders
+// Start cron job
 require("./services/cronService");
 
 require("./config/db");
 
-// Middleware
+const app = express();
+const PORT = process.env.PORT || 5000;
+
 app.use(helmet());
 app.use(
   cors({
@@ -33,6 +33,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/children", childRoutes);
 app.use("/api/vaccines", vaccineRoutes);
 app.use("/api/notifications", notificationRoutes);
+app.use("/api/user", userRoutes);
 
 // Health check
 app.get("/api/health", (req, res) => {
