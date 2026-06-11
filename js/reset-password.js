@@ -1,10 +1,8 @@
 const API = "http://localhost:5000/api";
 
-// ── Login Form ────────────────────────────────────────────
 // Password strength checker
 function checkStrength() {
-  const password = document.getElementById("password").value;
-
+  const password = document.getElementById("new-password").value;
   const bar1 = document.getElementById("bar1");
   const bar2 = document.getElementById("bar2");
   const bar3 = document.getElementById("bar3");
@@ -13,13 +11,11 @@ function checkStrength() {
 
   if (!bar1) return;
 
-  // Check each requirement
   const hasLength = password.length >= 8;
   const hasUpper = /[A-Z]/.test(password);
   const hasNumber = /[0-9]/.test(password);
   const hasSpecial = /[^A-Za-z0-9]/.test(password);
 
-  // Update requirement indicators
   document.getElementById("req-length").innerHTML =
     `${hasLength ? "✅" : "❌"} At least 8 characters`;
   document.getElementById("req-upper").innerHTML =
@@ -29,12 +25,9 @@ function checkStrength() {
   document.getElementById("req-special").innerHTML =
     `${hasSpecial ? "✅" : "❌"} At least one special character (!@#$...)`;
 
-  // Calculate strength
   const strength = [hasLength, hasUpper, hasNumber, hasSpecial].filter(
     Boolean,
   ).length;
-
-  // Reset bars
   const bars = [bar1, bar2, bar3, bar4];
   const colors = { 1: "#C62828", 2: "#F57F17", 3: "#43A047", 4: "#2E7D32" };
   const labels = {
@@ -52,56 +45,37 @@ function checkStrength() {
   text.textContent = labels[strength];
   text.style.color = colors[strength] || "var(--text-muted)";
 }
-const loginForm = document.getElementById("login-form");
-if (loginForm) {
-  loginForm.addEventListener("submit", async (e) => {
+
+// Get token from URL
+const urlParams = new URLSearchParams(window.location.search);
+const token = urlParams.get("token");
+
+if (!token) window.location.href = "../index.html";
+
+const resetForm = document.getElementById("reset-form");
+if (resetForm) {
+  resetForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-    const errorMsg = document.getElementById("error-msg");
-
-    try {
-      const res = await fetch(`${API}/auth/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-      const data = await res.json();
-
-      if (!res.ok) {
-        errorMsg.textContent = data.error;
-        errorMsg.style.display = "block";
-        return;
-      }
-
-      localStorage.setItem("kidvax_token", data.token);
-      localStorage.setItem("kidvax_user", JSON.stringify(data.user));
-      window.location.href = "pages/dashboard.html";
-    } catch (err) {
-      errorMsg.textContent = "Connection failed. Is the server running?";
-      errorMsg.style.display = "block";
-    }
-  });
-}
-
-// ── Register Form ─────────────────────────────────────────
-const registerForm = document.getElementById("register-form");
-if (registerForm) {
-  registerForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const fullname = document.getElementById("fullname").value;
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+    const newPassword = document.getElementById("new-password").value;
+    const confirmPassword = document.getElementById("confirm-password").value;
     const errorMsg = document.getElementById("error-msg");
     const successMsg = document.getElementById("success-msg");
 
+    errorMsg.style.display = "none";
+    successMsg.style.display = "none";
+
+    if (newPassword !== confirmPassword) {
+      errorMsg.textContent = "Passwords do not match";
+      errorMsg.style.display = "block";
+      return;
+    }
+
     try {
-      const res = await fetch(`${API}/auth/register`, {
+      const res = await fetch(`${API}/user/reset-password`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ fullname, email, password }),
+        body: JSON.stringify({ token, newPassword }),
       });
       const data = await res.json();
 
@@ -111,9 +85,9 @@ if (registerForm) {
         return;
       }
 
-      successMsg.textContent = "Account created! Redirecting to login...";
+      successMsg.textContent = data.message;
       successMsg.style.display = "block";
-      setTimeout(() => (window.location.href = "../index.html"), 2000);
+      setTimeout(() => (window.location.href = "../index.html"), 3000);
     } catch (err) {
       errorMsg.textContent = "Connection failed. Is the server running?";
       errorMsg.style.display = "block";

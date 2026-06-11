@@ -24,7 +24,21 @@ const sendVaccineReminder = async (
 
   let subject, headerColor, headerText, bodyText;
 
-  if (type === "upcoming") {
+  if (type === "reset") {
+    subject = "🔑 KIDVAX Password Reset";
+    headerColor = "#2E7D32";
+    headerText = "🔑 Password Reset Request";
+    bodyText = `
+      <p>You requested a password reset for your KIDVAX account.</p>
+      <p>Click the button below to reset your password. This link expires in <strong>1 hour</strong>.</p>
+      <div style="text-align: center; margin: 24px 0;">
+        <a href="${vaccine.resetLink}" style="background: #2E7D32; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: bold;">
+          Reset My Password
+        </a>
+      </div>
+      <p style="font-size: 12px; color: #999;">If you didn't request this, ignore this email.</p>
+    `;
+  } else if (type === "upcoming") {
     subject = `🟡 Upcoming Vaccine for ${childName} in ${vaccine.daysUntil} days`;
     headerColor = "#F57F17";
     headerText = "🟡 Upcoming Vaccine Reminder";
@@ -54,14 +68,13 @@ const sendVaccineReminder = async (
         <div style="padding: 30px;">
           <h2 style="color: ${headerColor};">${headerText}</h2>
           <p>Hello <strong>${parentName}</strong>,</p>
-          <p>This is a reminder for <strong>${childName}</strong>:</p>
           <div style="background: #f9f9f9; padding: 16px 20px; border-left: 4px solid ${headerColor}; border-radius: 4px; margin: 16px 0;">
             ${bodyText}
           </div>
           <p style="color: #666; font-size: 13px;">— The KIDVAX Team</p>
         </div>
         <div style="background: #f5f5f5; padding: 12px; text-align: center; font-size: 12px; color: #999;">
-          This is an automated reminder from KIDVAX. Do not reply to this email.
+          This is an automated email from KIDVAX. Do not reply to this email.
         </div>
       </div>
     `,

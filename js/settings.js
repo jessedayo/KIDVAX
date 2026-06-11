@@ -2,6 +2,53 @@ const API = "http://localhost:5000/api";
 const token = localStorage.getItem("kidvax_token");
 const user = JSON.parse(localStorage.getItem("kidvax_user"));
 
+// Password strength checker
+function checkStrength() {
+  const password = document.getElementById("new-password").value;
+
+  const bar1 = document.getElementById("bar1");
+  const bar2 = document.getElementById("bar2");
+  const bar3 = document.getElementById("bar3");
+  const bar4 = document.getElementById("bar4");
+  const text = document.getElementById("strength-text");
+
+  if (!bar1) return;
+
+  const hasLength = password.length >= 8;
+  const hasUpper = /[A-Z]/.test(password);
+  const hasNumber = /[0-9]/.test(password);
+  const hasSpecial = /[^A-Za-z0-9]/.test(password);
+
+  document.getElementById("req-length").innerHTML =
+    `${hasLength ? "✅" : "❌"} At least 8 characters`;
+  document.getElementById("req-upper").innerHTML =
+    `${hasUpper ? "✅" : "❌"} At least one uppercase letter`;
+  document.getElementById("req-number").innerHTML =
+    `${hasNumber ? "✅" : "❌"} At least one number`;
+  document.getElementById("req-special").innerHTML =
+    `${hasSpecial ? "✅" : "❌"} At least one special character (!@#$...)`;
+
+  const strength = [hasLength, hasUpper, hasNumber, hasSpecial].filter(
+    Boolean,
+  ).length;
+  const bars = [bar1, bar2, bar3, bar4];
+  const colors = { 1: "#C62828", 2: "#F57F17", 3: "#43A047", 4: "#2E7D32" };
+  const labels = {
+    0: "",
+    1: "❌ Weak",
+    2: "⚠️ Fair",
+    3: "✅ Good",
+    4: "💪 Strong",
+  };
+
+  bars.forEach((bar, i) => {
+    bar.style.background = i < strength ? colors[strength] : "var(--border)";
+  });
+
+  text.textContent = labels[strength];
+  text.style.color = colors[strength] || "var(--text-muted)";
+}
+
 // Redirect if not logged in
 if (!token) window.location.href = "../index.html";
 

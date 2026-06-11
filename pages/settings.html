@@ -82,7 +82,74 @@
                 type="password"
                 id="new-password"
                 placeholder="Enter new password"
+                oninput="checkStrength()"
               />
+              <div style="margin-top: 10px">
+                <div style="display: flex; gap: 4px; margin-bottom: 8px">
+                  <div
+                    id="bar1"
+                    style="
+                      height: 4px;
+                      flex: 1;
+                      border-radius: 4px;
+                      background: var(--border);
+                      transition: all 0.3s;
+                    "
+                  ></div>
+                  <div
+                    id="bar2"
+                    style="
+                      height: 4px;
+                      flex: 1;
+                      border-radius: 4px;
+                      background: var(--border);
+                      transition: all 0.3s;
+                    "
+                  ></div>
+                  <div
+                    id="bar3"
+                    style="
+                      height: 4px;
+                      flex: 1;
+                      border-radius: 4px;
+                      background: var(--border);
+                      transition: all 0.3s;
+                    "
+                  ></div>
+                  <div
+                    id="bar4"
+                    style="
+                      height: 4px;
+                      flex: 1;
+                      border-radius: 4px;
+                      background: var(--border);
+                      transition: all 0.3s;
+                    "
+                  ></div>
+                </div>
+                <p
+                  id="strength-text"
+                  style="
+                    font-size: 12px;
+                    color: var(--text-muted);
+                    margin-bottom: 8px;
+                  "
+                ></p>
+                <div style="font-size: 12px; color: var(--text-muted)">
+                  <p id="req-length" style="margin-bottom: 4px">
+                    ❌ At least 8 characters
+                  </p>
+                  <p id="req-upper" style="margin-bottom: 4px">
+                    ❌ At least one uppercase letter
+                  </p>
+                  <p id="req-number" style="margin-bottom: 4px">
+                    ❌ At least one number
+                  </p>
+                  <p id="req-special" style="margin-bottom: 4px">
+                    ❌ At least one special character (!@#$...)
+                  </p>
+                </div>
+              </div>
             </div>
             <div class="form-group">
               <label>Confirm New Password</label>
