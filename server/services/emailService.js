@@ -80,5 +80,62 @@ const sendVaccineReminder = async (
     `,
   });
 };
+// Send welcome email after registration
+const sendWelcomeEmail = async (toEmail, fullname) => {
+  await transporter.sendMail({
+    from: process.env.EMAIL_FROM,
+    to: toEmail,
+    subject: "🎉 Welcome to KIDVAX!",
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden;">
+        <div style="background: #2E7D32; padding: 24px; text-align: center;">
+          <h1 style="color: white; margin: 0;">💉 KIDVAX</h1>
+          <p style="color: rgba(255,255,255,0.85); margin: 4px 0;">Child Vaccination Tracking System</p>
+        </div>
+        <div style="padding: 30px;">
+          <h2 style="color: #2E7D32;">🎉 Welcome, ${fullname}!</h2>
+          <p>Your KIDVAX account has been created successfully. You can now:</p>
+          <ul style="line-height: 2; padding-left: 24px;">
+            <li>Add and manage your children's profiles</li>
+            <li>Track vaccination records</li>
+            <li>Receive automated vaccine reminders</li>
+            <li>Download digital vaccination cards</li>
+          </ul>
+          <p>Keep your children healthy and on schedule!</p>
+          <p style="color: #666; font-size: 13px;">— The KIDVAX Team</p>
+        </div>
+        <div style="background: #f5f5f5; padding: 12px; text-align: center; font-size: 12px; color: #999;">
+          This is an automated email from KIDVAX. Do not reply to this email.
+        </div>
+      </div>
+    `,
+  });
+};
 
-module.exports = { sendVaccineReminder };
+// Send account deletion email
+const sendDeletionEmail = async (toEmail, fullname) => {
+  await transporter.sendMail({
+    from: process.env.EMAIL_FROM,
+    to: toEmail,
+    subject: "👋 Your KIDVAX Account Has Been Deleted",
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden;">
+        <div style="background: #C62828; padding: 24px; text-align: center;">
+          <h1 style="color: white; margin: 0;">💉 KIDVAX</h1>
+          <p style="color: rgba(255,255,255,0.85); margin: 4px 0;">Child Vaccination Tracking System</p>
+        </div>
+        <div style="padding: 30px;">
+          <h2 style="color: #C62828;">👋 Goodbye, ${fullname}!</h2>
+          <p>Your KIDVAX account and all associated data have been permanently deleted.</p>
+          <p>If you did not request this, please contact us immediately at <a href="mailto:kidvax.app@gmail.com">kidvax.app@gmail.com</a></p>
+          <p style="color: #666; font-size: 13px;">— The KIDVAX Team</p>
+        </div>
+        <div style="background: #f5f5f5; padding: 12px; text-align: center; font-size: 12px; color: #999;">
+          This is an automated email from KIDVAX. Do not reply to this email.
+        </div>
+      </div>
+    `,
+  });
+};
+
+module.exports = { sendVaccineReminder, sendWelcomeEmail, sendDeletionEmail };

@@ -2,10 +2,26 @@ const API = "http://localhost:5000/api";
 const token = localStorage.getItem("kidvax_token");
 const user = JSON.parse(localStorage.getItem("kidvax_user"));
 
+// Redirect if not logged in
+if (!token) window.location.href = "../index.html";
+
+// Show user name
+document.getElementById("user-name").textContent =
+  "👋 " + user.fullname.split(" ")[0];
+
+// Pre-fill name field
+document.getElementById("new-name").value = user.fullname;
+
+// Logout
+function logout() {
+  localStorage.removeItem("kidvax_token");
+  localStorage.removeItem("kidvax_user");
+  window.location.href = "../index.html";
+}
+
 // Password strength checker
 function checkStrength() {
   const password = document.getElementById("new-password").value;
-
   const bar1 = document.getElementById("bar1");
   const bar2 = document.getElementById("bar2");
   const bar3 = document.getElementById("bar3");
@@ -49,23 +65,6 @@ function checkStrength() {
   text.style.color = colors[strength] || "var(--text-muted)";
 }
 
-// Redirect if not logged in
-if (!token) window.location.href = "../index.html";
-
-// Show user name
-document.getElementById("user-name").textContent =
-  "👋 " + user.fullname.split(" ")[0];
-
-// Pre-fill name field
-document.getElementById("new-name").value = user.fullname;
-
-// Logout
-function logout() {
-  localStorage.removeItem("kidvax_token");
-  localStorage.removeItem("kidvax_user");
-  window.location.href = "../index.html";
-}
-
 // Update name
 async function updateName() {
   const fullname = document.getElementById("new-name").value;
@@ -98,7 +97,6 @@ async function updateName() {
       return;
     }
 
-    // Update localStorage with new name
     const updatedUser = { ...user, fullname };
     localStorage.setItem("kidvax_user", JSON.stringify(updatedUser));
 
@@ -161,38 +159,38 @@ async function updatePassword() {
     errorMsg.textContent = "Failed to update password";
     errorMsg.style.display = "block";
   }
-  // Delete account
-  async function deleteMyAccount() {
-    if (
-      !confirm(
-        "Are you sure? This will permanently delete your account and all your data!",
-      )
+}
+
+// Delete account
+async function deleteMyAccount() {
+  if (
+    !confirm(
+      "Are you sure? This will permanently delete your account and all your data!",
     )
-      return;
-    if (!confirm("This cannot be undone. Are you absolutely sure?")) return;
+  )
+    return;
+  if (!confirm("This cannot be undone. Are you absolutely sure?")) return;
 
-    try {
-      const res = await fetch(`${API}/user/delete`, {
-        method: "DELETE",
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      const data = await res.json();
+  try {
+    const res = await fetch(`${API}/user/delete`, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const data = await res.json();
 
-      if (!res.ok) {
-        document.getElementById("delete-error").textContent = data.error;
-        document.getElementById("delete-error").style.display = "block";
-        return;
-      }
-
-      // Clear localStorage and redirect to register
-      localStorage.removeItem("kidvax_token");
-      localStorage.removeItem("kidvax_user");
-      alert("Your account has been deleted.");
-      window.location.href = "../index.html";
-    } catch (err) {
-      document.getElementById("delete-error").textContent =
-        "Failed to delete account";
+    if (!res.ok) {
+      document.getElementById("delete-error").textContent = data.error;
       document.getElementById("delete-error").style.display = "block";
+      return;
     }
+
+    localStorage.removeItem("kidvax_token");
+    localStorage.removeItem("kidvax_user");
+    alert("Your account has been deleted.");
+    window.location.href = "../index.html";
+  } catch (err) {
+    document.getElementById("delete-error").textContent =
+      "Failed to delete account";
+    document.getElementById("delete-error").style.display = "block";
   }
 }

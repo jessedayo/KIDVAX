@@ -2,7 +2,10 @@
 const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
 const pool = require("../config/db");
-const { sendVaccineReminder } = require("../services/emailService");
+const {
+  sendVaccineReminder,
+  sendDeletionEmail,
+} = require("../services/emailService");
 
 // Update user's full name
 const updateName = async (req, res) => {
@@ -67,6 +70,14 @@ const updatePassword = async (req, res) => {
 // Delete user account
 const deleteAccount = async (req, res) => {
   try {
+    const [rows] = await pool.query("SELECT * FROM users WHERE user_id = ?", [
+      req.user.user_id,
+    ]);
+    const user = rows[0];
+
+    // Send deletion email before deleting
+    await sendDeletionEmail(user.email, user.fullname);
+
     await pool.query("DELETE FROM users WHERE user_id = ?", [req.user.user_id]);
     res.json({ message: "✅ Account deleted successfully" });
   } catch (err) {

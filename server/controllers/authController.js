@@ -2,6 +2,7 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { findUserByEmail, createUser } = require("../models/userModel");
+const { sendWelcomeEmail } = require("../services/emailService");
 
 // Register a new parent account
 const register = async (req, res) => {
@@ -37,6 +38,9 @@ const register = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const userId = await createUser(fullname, email, hashedPassword);
+
+    // Send welcome email
+    await sendWelcomeEmail(email, fullname);
 
     res
       .status(201)
