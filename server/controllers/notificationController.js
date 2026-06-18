@@ -24,7 +24,17 @@ const markAsRead = async (req, res) => {
     res.status(500).json({ error: "Server error: " + err.message });
   }
 };
-
+const deleteNotification = async (req, res) => {
+  try {
+    await pool.query(
+      "DELETE FROM notifications WHERE notification_id = ? AND user_id = ?",
+      [req.params.id, req.user.user_id],
+    );
+    res.json({ message: "✅ Notification deleted" });
+  } catch (err) {
+    res.status(500).json({ error: "Server error: " + err.message });
+  }
+};
 const sendReminder = async (req, res) => {
   try {
     const { childId } = req.body;
@@ -86,4 +96,9 @@ const sendReminder = async (req, res) => {
   }
 };
 
-module.exports = { getNotifications, markAsRead, sendReminder };
+module.exports = {
+  getNotifications,
+  markAsRead,
+  sendReminder,
+  deleteNotification,
+};

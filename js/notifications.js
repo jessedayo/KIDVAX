@@ -60,14 +60,14 @@ function renderNotifications(notifications) {
           ${new Date(notif.date_sent).toLocaleString()}
         </p>
       </div>
-      ${
-        notif.status === "sent"
-          ? `
-        <button class="btn btn-secondary btn-sm" onclick="markRead(${notif.notification_id})">
-          Mark Read
-        </button>`
-          : '<span class="text-muted" style="font-size:12px;">Read</span>'
-      }
+     <div style="display: flex; gap: 8px; align-items: center;">
+        ${
+          notif.status === "sent"
+            ? `<button class="btn btn-secondary btn-sm" onclick="markRead(${notif.notification_id})">Mark Read</button>`
+            : '<span class="text-muted" style="font-size:12px;">Read</span>'
+        }
+        <button class="btn btn-danger btn-sm" onclick="deleteNotif(${notif.notification_id})">🗑️</button>
+      </div>
     </div>
   `,
     )
@@ -84,6 +84,19 @@ async function markRead(id) {
     loadNotifications();
   } catch (err) {
     console.error("Failed to mark as read:", err);
+  }
+}
+// Delete a notification
+async function deleteNotif(id) {
+  if (!confirm("Delete this notification?")) return;
+  try {
+    await fetch(`${API}/notifications/${id}`, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    loadNotifications();
+  } catch (err) {
+    console.error("Failed to delete notification:", err);
   }
 }
 
